@@ -6,8 +6,14 @@ exports.interfaceVersion = 2
 
 exports.resolve = function (source, file, config) {
   if (resolve.isCore(source)) return { found: true, path: null }
+
+  var meteorSource = source;
+  if (source.startsWith('/')) {
+    meteorSource = path.resolve(config.root, source.substr(1));
+  }
+
   try {
-    return { found: true, path: resolve.sync(source, opts(file, config)) }
+    return { found: true, path: resolve.sync(meteorSource, opts(file, config)) }
   } catch (err) {
     return { found: false }
   }
