@@ -1,6 +1,6 @@
 {
   "name": "eslint-import-resolver-meteor",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Meteor import resolution plugin for eslint-plugin-import.",
   "main": "index.js",
   "scripts": {
