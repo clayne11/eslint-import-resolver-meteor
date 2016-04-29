@@ -20,9 +20,9 @@
   "author": "Ben Mosher (me@benmosher.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/benmosher/eslint-plugin-import/issues"
+    "url": "https://github.com/clayne11/eslint-import-resolver-meteor/issues"
   },
-  "homepage": "https://github.com/benmosher/eslint-plugin-import",
+  "homepage": "https://github.com/clayne11/eslint-import-resolver-meteor",
   "dependencies": {
     "find-root": "^1.0.0",
     "object-assign": "^4.0.1",
