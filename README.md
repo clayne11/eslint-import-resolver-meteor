@@ -2,10 +2,18 @@
 
 Meteor module resolution plugin for [`eslint-plugin-import`](https://www.npmjs.com/package/eslint-plugin-import).
 
-Published separately to allow pegging to a specific version in case of breaking
-changes.
-
 Config is passed directly through to [`resolve`](https://www.npmjs.com/package/resolve#resolve-sync-id-opts) as options:
+
+The project's root `package.json` file is used as the root for any `/` paths.
+
+Example:
+
+```javascript
+// foo.js
+import bar from '/imports/bar'
+```
+
+will translate to `PROJECT_ROOT/imports/bar`
 
 ```yaml
 settings:
