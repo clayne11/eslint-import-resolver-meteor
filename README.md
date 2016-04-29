@@ -6,6 +6,11 @@ Config is passed directly through to [`resolve`](https://www.npmjs.com/package/r
 
 The project's root `package.json` file is used as the root for any `/` paths.
 
+Installation:
+```javascript
+npm install --save-dev eslint eslint-plugin-import eslint-import-resolver-meteor
+```
+
 Example:
 
 ```javascript
@@ -18,7 +23,7 @@ will translate to `PROJECT_ROOT/imports/bar`
 ```yaml
 settings:
   import/resolver:
-    node:
+    meteor:
       extensions:
         # if unset, default is just '.js', but it must be re-added explicitly if set
         - .js
