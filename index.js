@@ -1,6 +1,7 @@
 var resolve = require('resolve')
   , path = require('path')
   , assign = require('object-assign')
+  , findRoot = require('find-root')
 
 exports.interfaceVersion = 2
 
@@ -9,7 +10,8 @@ exports.resolve = function (source, file, config) {
 
   var meteorSource = source;
   if (source.startsWith('/')) {
-    meteorSource = path.resolve(config.root, source.substr(1));
+    var root = findRoot(source);
+    meteorSource = path.resolve(root, source.substr(1));
   }
 
   try {
@@ -26,11 +28,10 @@ function opts(file, config) {
       // path.resolve will handle paths relative to CWD
       basedir: path.dirname(path.resolve(file)),
       packageFilter: packageFilter,
-
     })
 }
 
-function packageFilter(pkg) {
+function packageFilter(pkg, path, relativePath) {
   if (pkg['jsnext:main']) {
     pkg['main'] = pkg['jsnext:main']
   }
