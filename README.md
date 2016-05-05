@@ -4,6 +4,10 @@ Meteor module resolution plugin for [`eslint-plugin-import`](https://www.npmjs.c
 
 Config is passed directly through to [`resolve`](https://www.npmjs.com/package/resolve#resolve-sync-id-opts) as options:
 
+The resolver achieves to Meteor specific resolutions:
+
+### Resolve `/` imports
+
 The parent directory of the project's `.meteor` folder is used as the root for any `/` paths.
 
 Example:
@@ -15,6 +19,9 @@ import bar from '/imports/bar'
 
 will import from `PROJECT_ROOT/imports/bar`.
 
+
+### Resolve meteor package imports
+
 The resolver also resolves `import foo from 'meteor/bar`, however this part of the resolver does not work perfectly.
 
 Meteor packages (ie `import foo from 'meteor/bar'`) do not have a reliable way to access
@@ -24,13 +31,13 @@ rather rely on the Meteor build system to generate an importable symbol. This ha
 
 The strategy for resolving a Meteor import is as follows:
 
-We check that the package exists in `.meteor/versions`. If the package exists in this file it means that the package
+Check that the package exists in `.meteor/versions`. If the package exists in this file it means that the package
 being imported has been required by the project, either directly through `meteor add foo` or indirectly, by another package
 requiring it.
 
 This strategy is imperfect, however it is the best we can do. It leads to the following false positives:
 
-1. If you linting inside of a Meteor package, that package will only have access to the packages that it imports
+1. If you're linting inside of a Meteor package, that package will only have access to the packages that it imports
 in it's `package.js` file. You will get false positives for packages that are required by the project but not by the package.
 1. If a Meteor package is required by another package you are using, but you do not directly rely on that package,
 it will still show up in `.meteor/versions`. As a result you will get a false positive even though you can't import
