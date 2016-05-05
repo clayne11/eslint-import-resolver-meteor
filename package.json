@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/clayne11/eslint-import-resolver-meteor",
   "dependencies": {
-    "find-root": "^1.0.0",
     "object-assign": "^4.0.1",
     "resolve": "^1.1.6"
   },
