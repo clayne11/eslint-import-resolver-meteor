@@ -4,9 +4,18 @@ Meteor module resolution plugin for [`eslint-plugin-import`](https://www.npmjs.c
 
 Config is passed directly through to [`resolve`](https://www.npmjs.com/package/resolve#resolve-sync-id-opts) as options:
 
-The project's root `.meteor` file is used as the root for any `/` paths.
+The parent directory of the project's `.meteor` folder is used as the root for any `/` paths.
 
-It also resolves `import foo from 'meteor/bar`, however this part of the resolver does not work perfectly.
+Example:
+
+```javascript
+// foo.js
+import bar from '/imports/bar'
+```
+
+will import from `PROJECT_ROOT/imports/bar`.
+
+The resolver also resolves `import foo from 'meteor/bar`, however this part of the resolver does not work perfectly.
 
 Meteor packages (ie `import foo from 'meteor/bar'`) do not have a reliable way to access
 the main export of a package, and in fact some packages do not even have a main module file but
@@ -53,15 +62,6 @@ Installation:
 ```javascript
 npm install --save-dev eslint eslint-plugin-import eslint-import-resolver-meteor
 ```
-
-Example:
-
-```javascript
-// foo.js
-import bar from '/imports/bar'
-```
-
-will translate to `PROJECT_ROOT/imports/bar`
 
 ```yaml
 settings:
