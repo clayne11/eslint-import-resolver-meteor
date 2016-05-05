@@ -4,7 +4,7 @@ Meteor module resolution plugin for [`eslint-plugin-import`](https://www.npmjs.c
 
 Config is passed directly through to [`resolve`](https://www.npmjs.com/package/resolve#resolve-sync-id-opts) as options:
 
-The resolver achieves to Meteor specific resolutions:
+The resolver handles two Meteor specific resolutions:
 
 ### Resolve `/` imports
 
