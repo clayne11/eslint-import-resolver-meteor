@@ -64,14 +64,26 @@ function findMeteorRoot(start) {
 }
 
 function resolveMeteorPackage(source, meteorRoot) {
-  var versionPath = path.join(meteorRoot, '.meteor', 'versions');
   try {
-    var versionFile = fs.readFileSync(versionPath);
-    var versions = versionFile.toString();
     var package = source.split('/')[1];
-    var found = new RegExp('^' + package + '@', 'm').test(versions);
+    var packageCheckFile = package.indexOf(':') !== -1 ?
+      getPackageFile(meteorRoot) :
+      getVersionFile(meteorRoot);
+    var found = new RegExp('^' + package + '(@.*)?$', 'm').test(packageCheckFile);
     return {found: found, path: null};
   } catch (e) {
     return {found: false};
   }
+}
+
+function getVersionFile(meteorRoot) {
+  var filePath = path.join(meteorRoot, '.meteor', 'versions');
+  var fileBuffer = fs.readFileSync(filePath);
+  return fileBuffer.toString();
+}
+
+function getPackageFile(meteorRoot) {
+  var filePath = path.join(meteorRoot, '.meteor', 'packages');
+  var fileBuffer = fs.readFileSync(filePath);
+  return fileBuffer.toString();
 }
