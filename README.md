@@ -2,8 +2,6 @@
 
 Meteor module resolution plugin for [`eslint-plugin-import`](https://www.npmjs.com/package/eslint-plugin-import).
 
-Config is passed directly through to [`resolve`](https://www.npmjs.com/package/resolve#resolve-sync-id-opts) as options:
-
 [On npm](https://www.npmjs.com/package/eslint-import-resolver-meteor)
 
 ## Installation
@@ -11,6 +9,8 @@ Config is passed directly through to [`resolve`](https://www.npmjs.com/package/r
 ```javascript
 npm install --save-dev eslint eslint-plugin-import eslint-import-resolver-meteor
 ```
+
+Config is passed directly through to [`resolve`](https://www.npmjs.com/package/resolve#resolve-sync-id-opts) as options:
 
 In your `.eslintrc.yml`:
 ```yaml
