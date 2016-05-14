@@ -69,7 +69,7 @@ function resolveMeteorPackage(source, meteorRoot) {
     var packageCheckFile = package.indexOf(':') !== -1 ?
       getPackageFile(meteorRoot) :
       getVersionFile(meteorRoot);
-    var found = new RegExp('^' + package + '(@.*)?$', 'm').test(packageCheckFile);
+    var found = new RegExp('^' + package + '(@.*)?(\s*#.*)?$', 'm').test(packageCheckFile);
     return {found: found, path: null};
   } catch (e) {
     return {found: false};
