@@ -9,14 +9,18 @@ exports.resolve = function (source, file, config) {
   if (resolve.isCore(source)) return { found: true, path: null }
 
   if (source.startsWith('meteor/')) {
-    var meteorRoot = findMeteorRoot(file);
-    return resolveMeteorPackage(source, meteorRoot);
+    var meteorRoot = findMeteorRoot(file)
+    return resolveMeteorPackage(source, meteorRoot)
   }
 
-  var meteorSource = source;
+  var meteorSource = source
   if (source.startsWith('/')) {
-    var meteorRoot = findMeteorRoot(file);
-    meteorSource = path.resolve(meteorRoot, source.substr(1));
+    var meteorRoot = findMeteorRoot(file)
+    meteorSource = path.resolve(meteorRoot, source.substr(1))
+  }
+
+  if (isClientInServer(source, file) || isServerInClient(source, file)) {
+    return { found: false }
   }
 
   try {
@@ -52,38 +56,52 @@ function findMeteorRoot(start) {
     start = start.split(path.sep)
   }
   if(!start.length) {
-    throw new Error('package.json not found in path')
+    throw new Error('.meteor not found in path')
   }
   start.pop()
   var dir = start.join(path.sep)
   try {
-    fs.statSync(path.join(dir, '.meteor'));
-    return dir;
+    fs.statSync(path.join(dir, '.meteor'))
+    return dir
   } catch (e) {}
   return findMeteorRoot(start)
 }
 
+function isClientInServer(source, file) {
+  var clientRe = /\/client\//
+  var serverRe = /\/server\//
+  return clientRe.test(source) && serverRe.test(file)
+}
+
+function isServerInClient(source, file) {
+  var clientRe = /\/client\//
+  var serverRe = /\/server\//
+  return serverRe.test(source) && clientRe.test(file)
+}
+
 function resolveMeteorPackage(source, meteorRoot) {
   try {
-    var package = source.split('/')[1];
+    var package = source.split('/')[1]
     var packageCheckFile = package.indexOf(':') !== -1 ?
       getPackageFile(meteorRoot) :
-      getVersionFile(meteorRoot);
-    var found = new RegExp('^' + package + '(?:@.*?)?(?:[ \s\t]*#.*)?$', 'm').test(packageCheckFile);
-    return {found: found, path: null};
+      getVersionFile(meteorRoot)
+    var found = new RegExp('^' + package + '(?:@.*?)?(?:[ \s\t]*#.*)?$', 'm').test(packageCheckFile)
+    return found ?
+      { found: found, path: null } :
+      { found: false }
   } catch (e) {
-    return {found: false};
+    return { found: false }
   }
 }
 
 function getVersionFile(meteorRoot) {
-  var filePath = path.join(meteorRoot, '.meteor', 'versions');
-  var fileBuffer = fs.readFileSync(filePath);
-  return fileBuffer.toString();
+  var filePath = path.join(meteorRoot, '.meteor', 'versions')
+  var fileBuffer = fs.readFileSync(filePath)
+  return fileBuffer.toString()
 }
 
 function getPackageFile(meteorRoot) {
-  var filePath = path.join(meteorRoot, '.meteor', 'packages');
-  var fileBuffer = fs.readFileSync(filePath);
-  return fileBuffer.toString();
+  var filePath = path.join(meteorRoot, '.meteor', 'packages')
+  var fileBuffer = fs.readFileSync(filePath)
+  return fileBuffer.toString()
 }

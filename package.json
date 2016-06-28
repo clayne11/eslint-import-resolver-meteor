@@ -4,7 +4,8 @@
   "description": "Meteor import resolution plugin for eslint-plugin-import.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "test:watch": "mocha --watch"
   },
   "repository": {
     "type": "git",
