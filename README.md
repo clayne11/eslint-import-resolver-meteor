@@ -1,5 +1,7 @@
 # eslint-import-resolver-meteor
 
+[![Build Status](https://travis-ci.org/clayne11/eslint-import-resolver-meteor.svg?branch=master)](https://travis-ci.org/clayne11/eslint-import-resolver-meteor)
+
 Meteor module resolution plugin for [`eslint-plugin-import`](https://www.npmjs.com/package/eslint-plugin-import).
 
 [On npm](https://www.npmjs.com/package/eslint-import-resolver-meteor)
