@@ -51,7 +51,7 @@ settings:
 
 ## Motivations
 
-The resolver handles two Meteor specific resolutions:
+The resolver handles Meteor specific resolutions:
 
 ### Resolve `/` imports
 
@@ -65,6 +65,11 @@ import bar from '/imports/bar'
 ```
 
 will import from `PROJECT_ROOT/imports/bar`.
+
+### Ensure client and server files are imported correctly
+Files in a `client` folder should only be able to imported into other files in `client` folders. Likewise, files in a `server` folder should only be able to be imported into other `server` folders. This resolver checks for these cases and will not resolve files that don't follow these rules.
+
+See the `test/paths.js` file for tests that show these rules.
 
 
 ### Resolve meteor package imports

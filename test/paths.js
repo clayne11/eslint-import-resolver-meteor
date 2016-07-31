@@ -21,8 +21,28 @@ describe('paths', function () {
       .to.deep.equal({found: false})
   })
 
+  it('should not resolve a client file in a non-client file', function () {
+    expect(meteorResolver.resolve('/imports/client/client-test', './test/imports/package-test/plain-file.js'))
+      .to.deep.equal({found: false})
+  })
+
+  it('should not resolve a file ending in client in a non-client file', function () {
+    expect(meteorResolver.resolve('/imports/package-test/client', './test/imports/package-test/plain-file.js'))
+      .to.deep.equal({found: false})
+  })
+
   it('should not resolve a server file in a client file', function () {
     expect(meteorResolver.resolve('/imports/server/server-test', './test/imports/client/client-test.js'))
+      .to.deep.equal({found: false})
+  })
+
+  it('should not resolve a server file in a non-server file', function () {
+    expect(meteorResolver.resolve('/imports/server/server-test', './test/imports/package-test/plain-file.js'))
+      .to.deep.equal({found: false})
+  })
+
+  it('should not resolve a file ending in server in a non-server file', function () {
+    expect(meteorResolver.resolve('/imports/package-test/server', './test/imports/package-test/plain-file.js'))
       .to.deep.equal({found: false})
   })
 

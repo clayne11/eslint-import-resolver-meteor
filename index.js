@@ -1,7 +1,10 @@
 var resolve = require('resolve')
-  , path = require('path')
-  , assign = require('object-assign')
-  , fs = require('fs')
+var path = require('path')
+var assign = require('object-assign')
+var fs = require('fs')
+
+var clientRe = /\/client(\/|$)/
+var serverRe = /\/server(\/|$)/
 
 exports.interfaceVersion = 2
 
@@ -19,7 +22,7 @@ exports.resolve = function (source, file, config) {
     meteorSource = path.resolve(meteorRoot, source.substr(1))
   }
 
-  if (isClientInServer(source, file) || isServerInClient(source, file)) {
+  if (isClientInNonClient(source, file) || isServerInNonServer(source, file)) {
     return { found: false }
   }
 
@@ -67,16 +70,12 @@ function findMeteorRoot(start) {
   return findMeteorRoot(start)
 }
 
-function isClientInServer(source, file) {
-  var clientRe = /\/client\//
-  var serverRe = /\/server\//
-  return clientRe.test(source) && serverRe.test(file)
+function isClientInNonClient(source, file) {
+  return clientRe.test(source) && !clientRe.test(file)
 }
 
-function isServerInClient(source, file) {
-  var clientRe = /\/client\//
-  var serverRe = /\/server\//
-  return serverRe.test(source) && clientRe.test(file)
+function isServerInNonServer(source, file) {
+  return serverRe.test(source) && !serverRe.test(file)
 }
 
 function resolveMeteorPackage(source, meteorRoot) {
