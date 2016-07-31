@@ -3,6 +3,7 @@ var path = require('path')
 var assign = require('object-assign')
 var fs = require('fs')
 
+var notNodeModuleRe = /^(\.|\/)/
 var clientRe = /\/client(\/|$)/
 var serverRe = /\/server(\/|$)/
 
@@ -22,7 +23,7 @@ exports.resolve = function (source, file, config) {
     meteorSource = path.resolve(meteorRoot, source.substr(1))
   }
 
-  if (isClientInNonClient(source, file) || isServerInNonServer(source, file)) {
+  if (!isNodeModuleImport(source) && (isClientInNonClient(source, file) || isServerInNonServer(source, file))) {
     return { found: false }
   }
 
@@ -68,6 +69,10 @@ function findMeteorRoot(start) {
     return dir
   } catch (e) {}
   return findMeteorRoot(start)
+}
+
+function isNodeModuleImport(source) {
+  return !notNodeModuleRe.test(source)
 }
 
 function isClientInNonClient(source, file) {

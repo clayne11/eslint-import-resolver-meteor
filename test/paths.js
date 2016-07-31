@@ -46,6 +46,11 @@ describe('paths', function () {
       .to.deep.equal({found: false})
   })
 
+  it(`should resolve a file ending in server in a non-server file if it comes from a node module`, function () {
+    expect(meteorResolver.resolve('react-dom/server', './test/imports/package-test/plain-file.js'))
+      .to.have.property('found', true)
+  })
+
   it('should resolve a custom Meteor package if it is in the packages file', function () {
     expect(meteorResolver.resolve('meteor/test:package', './test/imports/client/client-test.js'))
       .to.deep.equal({

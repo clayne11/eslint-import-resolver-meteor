@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "chai": "^3.4.1",
-    "mocha": "^2.3.4"
+    "mocha": "^2.3.4",
+    "react-dom": "^15.3.0"
   }
 }
