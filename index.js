@@ -54,16 +54,16 @@ function packageFilter(pkg, path, relativePath) {
 function findMeteorRoot(start) {
   start = start || module.parent.filename
   if (typeof start === 'string') {
-    if (start[start.length-1] !== path.sep) {
-      start+=path.sep
+    if (start[start.length-1] !== '/') {
+      start += '/'
     }
-    start = start.split(path.sep)
+    start = start.split('/')
   }
   if(!start.length) {
     throw new Error('.meteor not found in path')
   }
   start.pop()
-  var dir = start.join(path.sep)
+  var dir = start.join('/')
   try {
     fs.statSync(path.join(dir, '.meteor'))
     return dir
