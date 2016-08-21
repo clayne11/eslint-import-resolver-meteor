@@ -23,8 +23,8 @@ exports.resolve = function (source, file, config) {
     meteorSource = path.resolve(meteorRoot, source.substr(1))
   }
 
-  var file_using_slash = file.split(path.sep).join('/')
-  if (!isNodeModuleImport(source) && (isClientInNonClient(source, file_using_slash) || isServerInNonServer(source, file_using_slash))) {
+  var fileUsingSlash = file.split(path.sep).join('/')
+  if (!isNodeModuleImport(source) && (isClientInNonClient(source, fileUsingSlash) || isServerInNonServer(source, fileUsingSlash))) {
     return { found: false }
   }
 
