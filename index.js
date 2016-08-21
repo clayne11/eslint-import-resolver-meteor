@@ -23,7 +23,8 @@ exports.resolve = function (source, file, config) {
     meteorSource = path.resolve(meteorRoot, source.substr(1))
   }
 
-  if (!isNodeModuleImport(source) && (isClientInNonClient(source, file) || isServerInNonServer(source, file))) {
+  var file_using_slash = file.split(path.sep).join('/')
+  if (!isNodeModuleImport(source) && (isClientInNonClient(source, file_using_slash) || isServerInNonServer(source, file_using_slash))) {
     return { found: false }
   }
 
@@ -54,16 +55,16 @@ function packageFilter(pkg, path, relativePath) {
 function findMeteorRoot(start) {
   start = start || module.parent.filename
   if (typeof start === 'string') {
-    if (start[start.length-1] !== '/') {
-      start += '/'
+    if (start[start.length-1] !== path.sep) {
+      start += path.sep
     }
-    start = start.split('/')
+    start = start.split(path.sep)
   }
   if(!start.length) {
     throw new Error('.meteor not found in path')
   }
   start.pop()
-  var dir = start.join('/')
+  var dir = start.join(path.sep)
   try {
     fs.statSync(path.join(dir, '.meteor'))
     return dir
