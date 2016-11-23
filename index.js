@@ -24,7 +24,7 @@ exports.resolve = function (source, file, config) {
   }
 
   var fileUsingSlash = file.split(path.sep).join('/')
-  if (!isNodeModuleImport(source) && (isClientInNonClient(source, fileUsingSlash) || isServerInNonServer(source, fileUsingSlash))) {
+  if (!isNodeModuleImport(source) && (isClientInServer(source, fileUsingSlash) || isServerInClient(source, fileUsingSlash))) {
     return { found: false }
   }
 
@@ -76,12 +76,12 @@ function isNodeModuleImport(source) {
   return !notNodeModuleRe.test(source)
 }
 
-function isClientInNonClient(source, file) {
-  return clientRe.test(source) && !clientRe.test(file)
+function isClientInServer(source, file) {
+  return serverRe.test(source) && clientRe.test(file)
 }
 
-function isServerInNonServer(source, file) {
-  return serverRe.test(source) && !serverRe.test(file)
+function isServerInClient(source, file) {
+  return clientRe.test(source) && serverRe.test(file)
 }
 
 function resolveMeteorPackage(source, meteorRoot) {
