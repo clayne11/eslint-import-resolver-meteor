@@ -25,14 +25,9 @@ describe('paths', function () {
       .to.deep.equal({found: false})
   })
 
-  it('should not resolve a client file in a non-client file', function () {
+  it('should resolve a client file in a non-client file which is not inside a server folder', function () {
     expect(meteorResolver.resolve('/imports/client/client-test', replaceSlashWithPathSep('./test/imports/package-test/plain-file.js')))
-      .to.deep.equal({found: false})
-  })
-
-  it('should not resolve a file ending in client in a non-client file', function () {
-    expect(meteorResolver.resolve('/imports/package-test/client', replaceSlashWithPathSep('./test/imports/package-test/plain-file.js')))
-      .to.deep.equal({found: false})
+      .to.have.property('found', true)
   })
 
   it('should not resolve a server file in a client file', function () {
@@ -40,14 +35,9 @@ describe('paths', function () {
       .to.deep.equal({found: false})
   })
 
-  it('should not resolve a server file in a non-server file', function () {
+  it('should resolve a server file in a non-server file which is not inside a client folder', function () {
     expect(meteorResolver.resolve('/imports/server/server-test', replaceSlashWithPathSep('./test/imports/package-test/plain-file.js')))
-      .to.deep.equal({found: false})
-  })
-
-  it('should not resolve a file ending in server in a non-server file', function () {
-    expect(meteorResolver.resolve('/imports/package-test/server', replaceSlashWithPathSep('./test/imports/package-test/plain-file.js')))
-      .to.deep.equal({found: false})
+      .to.have.property('found', true)
   })
 
   it(`should resolve a file ending in server in a non-server file if it comes from a node module`, function () {
