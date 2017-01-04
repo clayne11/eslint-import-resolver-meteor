@@ -10,16 +10,17 @@ var serverRe = /\/server(\/|$)/
 exports.interfaceVersion = 2
 
 exports.resolve = function (source, file, config) {
+  const meteorDir = config && config.meteorDir;
   if (resolve.isCore(source)) return { found: true, path: null }
 
   if (source.startsWith('meteor/')) {
-    var meteorRoot = findMeteorRoot(file)
+    var meteorRoot = findMeteorRoot(file, meteorDir)
     return resolveMeteorPackage(source, meteorRoot)
   }
 
   var meteorSource = source
   if (source.startsWith('/')) {
-    var meteorRoot = findMeteorRoot(file)
+    var meteorRoot = findMeteorRoot(file, meteorDir)
     meteorSource = path.resolve(meteorRoot, source.substr(1))
   }
 
@@ -52,8 +53,9 @@ function packageFilter(pkg, path, relativePath) {
   return pkg
 }
 
-function findMeteorRoot(start) {
+function findMeteorRoot(start, meteorDir) {
   start = start || module.parent.filename
+  meteorDir = meteorDir || '';
   if (typeof start === 'string') {
     if (start[start.length-1] !== path.sep) {
       start += path.sep
@@ -65,11 +67,12 @@ function findMeteorRoot(start) {
   }
   start.pop()
   var dir = start.join(path.sep)
+
   try {
-    fs.statSync(path.join(dir, '.meteor'))
-    return dir
+    fs.statSync(path.join(dir, meteorDir, '.meteor'))
+    return path.join(dir, meteorDir)
   } catch (e) {}
-  return findMeteorRoot(start)
+  return findMeteorRoot(start, meteorDir)
 }
 
 function isNodeModuleImport(source) {

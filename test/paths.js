@@ -70,4 +70,10 @@ describe('paths', function () {
     expect(meteorResolver.resolve('meteor/email', replaceSlashWithPathSep('./test/imports/client/client-test.js')))
       .to.deep.equal({found: false})
   })
+
+  it('should resolve meteor packages in a custom meteor direcotry', function() {
+    expect(meteorResolver.resolve('meteor/tracker', replaceSlashWithPathSep('./test/imports/client/client-test.js'), {
+      meteorDir: 'custom'
+    })).to.deep.equal({ found: true, path: null })
+  })
 })
