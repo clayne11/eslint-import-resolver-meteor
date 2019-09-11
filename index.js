@@ -21,7 +21,7 @@ exports.resolve = function (source, file, config) {
   var meteorSource = source
   if (source.startsWith('/')) {
     var meteorRoot = findMeteorRoot(file, meteorDir)
-    meteorSource = path.resolve(meteorRoot, source.substr(1))
+    if (!source.startsWith(meteorRoot)) meteorSource = path.resolve(meteorRoot, source.substr(1))
   }
 
   var fileUsingSlash = file.split(path.sep).join('/')
